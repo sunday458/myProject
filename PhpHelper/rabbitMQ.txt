@@ -1,0 +1,42 @@
+安装RabbitMQ
+
+安装Erlang  下载地址http://www.erlang.org/downloads
+
+安装RabbitMQ 下载地址http://www.rabbitmq.com/download.html
+
+双击安装
+
+然后以管理员身份运行CMD 进入RabbitMQ目录
+
+
+执行
+rabbitmq-plugins.bat enable rabbitmq_management 
+rabbitmq-service.bat start
+
+可能会报错提示 已经运行 这个时候执行
+rabbitmq-service.bat stop
+
+地址栏输入localhost:15672 || http://127.0.0.1:15672 成功进入后台
+
+
+从php官方下载相应的版本http://pecl.php.net/package/amqp，我这里使用的是1.4.0版本
+
+我的环境是64位的,php5.5.12.所以使用的是http://windows.php.net/downloads/pecl/releases/amqp/1.4.0/php_amqp-1.4.0-5.5-ts-vc11-x64.zip
+
+1.将php_amqp.dll放在php的ext目录里，然后修改php.ini文件，在文件的最后面添加两行
+
+[amqp]
+extension=php_amqp.dll
+
+
+2.将rabbitmq.1.dll文件放在php的根目录里(也就是ext目录的父级目录)，然后修改apache的httpd.con文件，文件尾部添加一行
+
+LoadFile  "d:/wamp/bin/php/php5.5.12/rabbitmq.1.dll"
+
+这里的路径根据情况修改，我这里使用的wampserver软件。 （ nginx 可以省略这一步！！）
+
+3.重启apache，并查看phpinfo信息。只要看到amqp
+
+php版本 ，X86 和X64 根据自己情况， NTS  和 TS 就是那个thread safty 的状态 
+
+记住版本  至于这个线程安全问题 这里引用了别人的自己看看吧  http://blog.csdn.net/aoyoo111/article/details/19021295
