@@ -1,0 +1,63 @@
+<!DOCtype html>
+<html>
+<head>
+    <title></title>
+</head>
+<body onload="whatBrowser()">
+    <script> 
+function whatBrowser() {  
+document.Browser.Name.value=navigator.appName;  
+document.Browser.Version.value=navigator.appVersion;  
+document.Browser.Code.value=navigator.appCodeName;  
+document.Browser.Agent.value=navigator.userAgent;  
+}  
+</script> 
+<table> 
+<form name="Browser"> 
+<tr> 
+<td> 浏览器名称: </td> 
+<td> <input type="txt" name="Name" size="110%"></td> 
+</tr> 
+<tr> 
+<td> 版本号:</td> 
+<td> <input type="txt" name="Version" size="110%"></td> 
+</tr> 
+<tr> 
+<td> 代码名称: </td> 
+<td> <input type="txt" name="Code" size="110%"></td> 
+</tr> 
+<tr> 
+<td> 用户代理标识:</td> 
+<td> <input type="txt" name="Agent" size="110%"></td> 
+</tr> 
+</form> 
+</table> 
+</body>
+<!--<script type="text/javascript">
+alert(11111);
+</script>-->
+<script type="text/javascript">
+/*function compile(code)  
+{    
+   var c=String.fromCharCode(code.charCodeAt(0)+code.length);  
+   for(var i=1;i<code.length;i++){  
+   c+=String.fromCharCode(code.charCodeAt(i)+code.charCodeAt(i-1));  
+   }  
+   console.log(escape(c)); 
+}  
+compile('alert("输出代码")');*/
+</script>
+<script type="text/javascript">
+function uncompile(code)  
+{  
+   code=unescape(code);  
+   var c=String.fromCharCode(code.charCodeAt(0)-code.length);  
+   for(var i=1;i<code.length;i++){  
+   c+=String.fromCharCode(code.charCodeAt(i)-c.charCodeAt(i-1));  
+   }  
+   return c;  
+}  
+//eval(uncompile("o%CD%D1%D7%E6%9CJ%u9EF3%uFA73%uF1D4%u14F1%u7EE1Kd"));  
+eval(uncompile("n%CD%D1%D7%E6%9CJ%u8FB5%uE18D%uA0DD%uC6E4%u7823K"));  
+</script>
+</html>
