@@ -13,7 +13,7 @@
  *  思考： A程序执行事务入AA库操作,B程序获取AA库的数据，先执行A再执行B，B能读取到AA表的记录吗？      
  * 模拟场景代码如下：
  */
-public function test_db1()
+	public function test_db1()
 	{
 		$db = M('member');
 		$db->startTrans();
@@ -65,13 +65,13 @@ INSERT INTO t_emp(
 	SELECT * FROM t_emp WHERE f_emp_code = '10007'
 );
 更新：　
-
 UPDATE t_emp SET f_emp_name = '新人2' ,
  f_city = '西安' ,
  f_salary = IF(1000 > f_salary , 1000 , f_salary) WHERE f_emp_code = '10007'
 缺点就是得写2条语句，分别处理插入和更新的场景。
-
-*方法二：replace into
+```
+```
+方法二：replace into
 REPLACE INTO t_emp(
 	f_emp_code ,
 	f_emp_name ,
@@ -83,8 +83,9 @@ REPLACE INTO t_emp(
 	'西安' ,
 	IF(1000 > f_salary , 1000 , f_salary));
 replace into相当于，先检测该记录是否存在(根据表上的唯一键)，如果存在，先delete，然后再insert。 这个方法有一个很大的问题，如果记录存在，每次执行完，主键自增id就变了（相当于重新insert了一条），对于有复杂关联的业务场景，如果主表的id变了，其它子表没做好同步，会死得很难看。-- 不建议使用该方法！
-
-*方法三：on duplicate key
+```
+```
+方法三：on duplicate key
 INSERT INTO t_emp(
 	f_emp_code ,
 	f_emp_name ,
