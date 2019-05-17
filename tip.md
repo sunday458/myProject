@@ -29,6 +29,9 @@
 		}catch(\Exception $e){
 			$error = $e->getMessage();
 			$db->rollback();
+			echo date('Y-m-d H:i:s').'入库测试结束';
+			var_dump($error);
+			exit();
 		}
 		$db->commit();
 		echo date('Y-m-d H:i:s').'入库测试结束';
