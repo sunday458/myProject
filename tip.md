@@ -48,12 +48,10 @@ public function test_db1()
      
 - 数据库
 + Mysql的数据库添加或更新操作
-*新增一个员工时，如果该员工已存在(以员工号f_emp_code作为判断依据)，则更新，否则插入。而且工资f_salary，更新时，不得低于原工资（即：工资只能涨，不能降）。
-
+	* 新增一个员工时，如果该员工已存在(以员工号f_emp_code作为判断依据)，则更新，否则插入。而且工资f_salary，更新时，不得低于原工资（即：工资只能涨，不能降）。
+```
 *方法一：传统方法
-
 插入
-
 INSERT INTO t_emp(
 	f_emp_code ,
 	f_emp_name ,
@@ -74,7 +72,6 @@ UPDATE t_emp SET f_emp_name = '新人2' ,
 缺点就是得写2条语句，分别处理插入和更新的场景。
 
 *方法二：replace into
-
 REPLACE INTO t_emp(
 	f_emp_code ,
 	f_emp_name ,
@@ -88,7 +85,6 @@ REPLACE INTO t_emp(
 replace into相当于，先检测该记录是否存在(根据表上的唯一键)，如果存在，先delete，然后再insert。 这个方法有一个很大的问题，如果记录存在，每次执行完，主键自增id就变了（相当于重新insert了一条），对于有复杂关联的业务场景，如果主表的id变了，其它子表没做好同步，会死得很难看。-- 不建议使用该方法！
 
 *方法三：on duplicate key
-
 INSERT INTO t_emp(
 	f_emp_code ,
 	f_emp_name ,
@@ -105,3 +101,4 @@ ON DUPLICATE KEY UPDATE
 	f_city = values(f_city),
 	f_salary = if(values(f_salary)>f_salary,values(f_salary),f_salary);
 注意上面的on duplicate key，遇到重复键（即：违反了唯一约束），这时会做update，否则做insert。该方法，没有replace into的副作用，不会导致已存在记录的自增id变化。但是有另外一个问题，如果这个表上有不止一个唯一约束，在特定版本的mysql中容易产生dead lock（死锁），见网友文章https://blog.csdn.net/pml18710973036/article/details/78452688
+```
