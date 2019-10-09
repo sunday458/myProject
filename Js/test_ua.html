@@ -36,8 +36,8 @@ document.Browser.Agent.value=navigator.userAgent;  
 <!--<script type="text/javascript">
 alert(11111);
 </script>-->
-<script type="text/javascript">
-/*function compile(code)  
+<!--<script type="text/javascript">
+function compile(code)  
 {    
    var c=String.fromCharCode(code.charCodeAt(0)+code.length);  
    for(var i=1;i<code.length;i++){  
@@ -45,8 +45,8 @@ alert(11111);
    }  
    console.log(escape(c)); 
 }  
-compile('alert("输出代码")');*/
-</script>
+compile('alert("输出代码")');
+</script>-->
 <script type="text/javascript">
 function uncompile(code)  
 {  
@@ -58,6 +58,72 @@ function uncompile(code)
    return c;  
 }  
 //eval(uncompile("o%CD%D1%D7%E6%9CJ%u9EF3%uFA73%uF1D4%u14F1%u7EE1Kd"));  
-eval(uncompile("n%CD%D1%D7%E6%9CJ%u8FB5%uE18D%uA0DD%uC6E4%u7823K"));  
+//eval(uncompile("n%CD%D1%D7%E6%9CJ%u8FB5%uE18D%uA0DD%uC6E4%u7823K"));  
+
+function getNetworkType() {
+    var ua = navigator.userAgent;
+    var networkStr = ua.match(/NetType\/\w+/) ? ua.match(/NetType\/\w+/)[0] : 'NetType/other';
+    networkStr = networkStr.toLowerCase().replace('nettype/', '');
+    var networkType;
+    switch(networkStr) {
+        case 'wifi':
+            networkType = 'wifi';
+            break;
+        case '4g':
+            networkType = '4g';
+            break;
+        case '3g':
+            networkType = '3g';
+            break;
+        case '3gnet':
+            networkType = '3g';
+            break;
+        case '2g':
+            networkType = '2g';
+            break;
+        default:
+            networkType = 'other';
+    }
+    console.log(networkStr)
+}
+getNetworkType();
+</script>
+<script type="text/javascript"> 
+var connection = navigator.connection||navigator.mozConnection||navigator.webkitConnection||{tyep:'unknown'};
+var type_text = ['unknown','ethernet','wifi','2g','3g','4g','none'];
+ 
+console.log(connection.type);
+var re_el = document.getElementById("re");
+var btn_el = document.getElementById("btn");
+function get_status(){
+if(typeof(connection.type) == "number"){
+  connection.type_text = type_text[connection.type];
+}else{
+  connection.type_text = connection.type;
+}
+if(typeof(connection.bandwidth) == "number"){
+  if(connection.bandwidth > 10){
+    connection.type = 'wifi';
+  }else if(connection.bandwidth > 2){
+    connection.type = '3g';
+  }else if(connection.bandwidth > 0){
+    connection.type = '2g';
+  }else if(connection.bandwidth == 0){
+    connection.type = 'none';
+  }else{
+    connection.type = 'unknown';
+  }
+}
+var html = 'Type : '+connection.type_text;
+  html += 'Bandwidth : '+connection.bandwidth;
+  html += 'isOnline : '+navigator.onLine;
+  re_el.innerHTML = html;
+}
+ 
+/*btn_el.onclick = function(){
+  re_el.innerHTML = 'Waiting...';
+  get_status();
+}*/
+ //get_status();
 </script>
 </html>
