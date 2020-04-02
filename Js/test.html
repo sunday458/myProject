@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="renderer" content="webkit"/>
+    <meta http-equiv="Cache-Control" content="no-siteapp" /><link rel="alternate" media="handheld" href="#" />
+    <!--js引用-->
+    <script src="./jquery-1.12.4.min.js" type="text/javascript"></script>
+    
+</head>
+<!-- <body class="nodata " > 
+    测试
+</body> -->
+<script type="text/javascript">
+    /*setParmsValue('Test1','AAA');*/
+    replaceParamVal('v','1.0.10');
+    var c=0;
+    var t;
+    function timedCount()
+    {
+        document.getElementById('txt').value=c;
+        c=c+1;
+        t=setTimeout("timedCount()",1000);
+        //t2 = setTimeout("open_window()",1000*60*4);
+        //t2 = setInterval("open_window()",1000);
+    }
+
+    function open_window(){ 
+        var mydate = new Date();
+        var time =mydate.toLocaleString();
+        //console.log(time);
+        var link='http://wap.m.asiaskin.com.cn/index/timing_task/user_agent_ip_info_timing_task';
+        /*var arg = '\u003cscript\u003elocation.replace("'+link+'")\u003c/script\u003e';
+        window.open('javascript:window.name;', arg);*/
+        $.ajax({
+            type: "get",
+            url: link,
+            dataType:"jsonp",
+            data:{
+                limit_num:100
+            },
+           // jsonpCallback:'handler',   //回调函数  
+            jsonp:'callback',  
+            success:function(data) {
+                console.log(time);
+            },  
+            error:function(request,a,b) {
+                /*alert("数据失败");*/
+                console.log("数据失败");
+            }  
+        });
+    }
+
+    function stopCount()
+    {
+        clearTimeout(t);
+    }
+
+    function replaceParamVal(paramName,replaceWith) {
+        var oUrl = window.location.href; //当前url
+        //var host = location.host; //当前域名
+        var host = hosturl(oUrl); //当前域名
+        var time = Date.now();
+        var nUrl = host+'?'+paramName+'='+replaceWith+'&t='+time;
+        console.log(nUrl);
+        //this.location = nUrl;
+        window.history.pushState(null,null,nUrl);
+　　 /*window.location.href=nUrl;*/
+    }
+
+    function hosturl(url){
+        //var urlstr = url.split("/"); //以“/”进行分割
+        var urlstr = url.split("?"); //以“?”进行分割
+        console.log(urlstr);
+        return urlstr[0];
+        
+        /*var urls = '';
+        if (urlstr[2]) {
+            urls = urlstr[0] + '//' + urlstr[2];
+        }
+        return urls;*/
+    }
+
+</script>
+</head>
+
+<body>
+<form>
+<input type="button" value="开始计时！" onClick="timedCount()">
+<input type="text" id="txt">
+<input type="button" value="停止计时！" onClick="stopCount()">
+</form>
+<p>请点击上面的按钮。输入框会从 0 开始一直进行计时。</p>
+</body>
+
+<!-- <script type="text/javascript">
+ $(function(){
+        setTimeout(console.log(222),1000);
+ });
+</script> -->
+<script type="text/javascript">
+    var url=window.location.href;
+    var time = Date.now();    
+    if(url.indexOf("source")<=0){
+        history.pushState("", "Title", url+"&source=test"+"&source2="+time);
+    }
+</script>
+</html>
